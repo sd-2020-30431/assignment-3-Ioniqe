@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 public class UserController {
 
     private final Mediator mediator;
+
     public UserController(Mediator mediator) {
         this.mediator = mediator;
     }
@@ -28,7 +29,7 @@ public class UserController {
         String password = myUser.getPassword().trim();
 
         FindUserQuery request = new FindUserQuery(myUser.getUsername(), myUser.getPassword());
-        FindUserQueryHandler handler = (FindUserQueryHandler)mediator.<FindUserQuery, FindUserResponse>handle(request);
+        FindUserQueryHandler handler = (FindUserQueryHandler) mediator.<FindUserQuery, FindUserResponse>handle(request);
         FindUserResponse response = handler.handle(request);
         User verifyUser = response.getUser();
 
@@ -39,25 +40,34 @@ public class UserController {
         return new ResponseEntity(new UserDTO(username, password), HttpStatus.OK);
     }
 
+    private ResponseEntity save(User user){
+        SaveUserCommand requestSave = new SaveUserCommand(user);
+        SaveUserCommandHandler handlerSave = (SaveUserCommandHandler) mediator.<SaveUserCommand, SaveUserCommandResponse>handle(requestSave);
+        SaveUserCommandResponse responseSave = handlerSave.handle(requestSave);
+        responseSave.setUser(user);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/lists/updateUserGoal", method = RequestMethod.PUT)
     public ResponseEntity editUser(@RequestBody User updatedUserGoal) {
-        FindUserQuery request = new FindUserQuery(updatedUserGoal.getUsername(), updatedUserGoal.getPassword());
-        FindUserQueryHandler handler = (FindUserQueryHandler)mediator.<FindUserQuery, FindUserResponse>handle(request);
+        FindUserQuery request = new FindUserQuery(updatedUserGoal.getUsername());
+        FindUserQueryHandler handler = (FindUserQueryHandler) mediator.<FindUserQuery, FindUserResponse>handle(request);
         FindUserResponse response = handler.handle(request);
-        response.getUser().setGoal(updatedUserGoal.getGoal());
 
-        return new ResponseEntity(HttpStatus.OK);
+        User user = response.getUser();
+        user.setGoal(updatedUserGoal.getGoal());
+
+        System.out.println(user.getUsername());
+        System.out.println(user.getPassword());
+        System.out.println(user.getGoal());
+
+        return save(user);
 
     }
 
     @RequestMapping(value = "/newUser", method = RequestMethod.POST)
     public ResponseEntity saveUser(@RequestBody User newUser) {
-
-        SaveUserCommand request = new SaveUserCommand(newUser);
-        SaveUserCommandHandler handler = (SaveUserCommandHandler)mediator.<SaveUserCommand, SaveUserCommandResponse>handle(request);
-        SaveUserCommandResponse response = handler.handle(request);
-        response.setUser(newUser);
-        return new ResponseEntity(HttpStatus.OK);
+        return save(newUser);
     }
 
 
