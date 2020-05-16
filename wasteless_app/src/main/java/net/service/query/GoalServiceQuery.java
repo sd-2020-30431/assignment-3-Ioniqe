@@ -15,14 +15,25 @@ import java.util.List;
 @Service
 public class GoalServiceQuery {
 
-    @Autowired
-    private UserRepository userRepository;
+//    @Autowired
+//    private UserRepository userRepository;
+//
+//    @Autowired
+//    private ListRepository listRepository;
+//
+//    @Autowired
+//    private ItemRepository itemRepository;
+//
+    private final UserRepository userRepository;
+    private final ListRepository listRepository;
+    private final ItemRepository itemRepository;
 
-    @Autowired
-    private ListRepository listRepository;
 
-    @Autowired
-    private ItemRepository itemRepository;
+    public GoalServiceQuery(UserRepository userRepository, ListRepository listRepository, ItemRepository itemRepository) {
+        this.userRepository = userRepository;
+        this.listRepository = listRepository;
+        this.itemRepository = itemRepository;
+    }
 
     public int calculateAmountOfDailyCalories(long userId) {
         List<Lists> usersLists = listRepository.findAllByUserId(userId);

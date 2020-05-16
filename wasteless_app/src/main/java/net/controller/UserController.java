@@ -1,48 +1,43 @@
 package net.controller;
 
-import net.model.Item;
-import net.model.Lists;
+import net.mediator.Mediator;
+import net.mediator.command.SaveUserCommand;
+import net.mediator.handler.FindUserQueryHandler;
+import net.mediator.handler.SaveUserCommandHandler;
+import net.mediator.query.FindUserQuery;
+import net.mediator.response.FindUserResponse;
+import net.mediator.response.SaveUserCommandResponse;
 import net.model.User;
 import net.model.dto.UserDTO;
-import net.observer.ItemExpirationObserver;
-//import net.service.ItemService;
-//import net.service.ListService;
-//import net.service.UserService;
-import net.service.command.UserServiceCommand;
-import net.service.query.UserServiceQuery;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
-import java.util.*;
-
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*", exposedHeaders = "Authorization")
-//@Controller
 public class UserController {
 
-//    @Autowired
-//    private UserService service;
-
-    private User user;
-
-    @Autowired
-    UserServiceQuery userServiceQuery = new UserServiceQuery();
-    @Autowired
-    UserServiceCommand userServiceCommand = new UserServiceCommand();
-
-    @RequestMapping(value = "/login2", method = RequestMethod.GET)
-    public ResponseEntity<User> login2() {
-        User user = new User((long) 1123, "test", "test");
-        return new ResponseEntity<User>(user, HttpStatus.OK);
+    private final Mediator mediator;
+    public UserController(Mediator mediator) {
+        this.mediator = mediator;
     }
 
     @RequestMapping(value = "/login2", method = RequestMethod.POST)
     public ResponseEntity<User> update(@RequestBody User myUser) {
         String username = myUser.getUsername().trim();
         String password = myUser.getPassword().trim();
-        User verifyUser = userServiceQuery.findUser(username, password);
+//        User verifyUser = userServiceQuery.findUser(username, password);
+//        if (verifyUser == null) {
+//            return new ResponseEntity("Invalid User", HttpStatus.UNAUTHORIZED);
+//        }
+//
+//        return new ResponseEntity(new UserDTO(username, password), HttpStatus.OK);
+
+        FindUserQuery request = new FindUserQuery(myUser.getUsername(), myUser.getPassword());
+        FindUserQueryHandler handler = (FindUserQueryHandler)mediator.<FindUserQuery, FindUserResponse>handle(request);
+        FindUserResponse response = handler.handle(request);
+        User verifyUser = response.getUser();
+
         if (verifyUser == null) {
             return new ResponseEntity("Invalid User", HttpStatus.UNAUTHORIZED);
         }
@@ -52,15 +47,29 @@ public class UserController {
 
     @RequestMapping(value = "/lists/updateUserGoal", method = RequestMethod.PUT)
     public ResponseEntity editUser(@RequestBody User updatedUserGoal) {
-        User updatedUser = userServiceQuery.findUserByUsername(updatedUserGoal.getUsername());
-        updatedUser.setGoal(updatedUserGoal.getGoal());
-        userServiceCommand.save(updatedUser);
+//        User updatedUser = userServiceQuery.findUserByUsername(updatedUserGoal.getUsername());
+//        updatedUser.setGoal(updatedUserGoal.getGoal());
+//        userServiceCommand.save(updatedUser);
+//        return new ResponseEntity(HttpStatus.OK);
+
+        FindUserQuery request = new FindUserQuery(updatedUserGoal.getUsername(), updatedUserGoal.getPassword());
+        FindUserQueryHandler handler = (FindUserQueryHandler)mediator.<FindUserQuery, FindUserResponse>handle(request);
+        FindUserResponse response = handler.handle(request);
+        response.getUser().setGoal(updatedUserGoal.getGoal());
+
         return new ResponseEntity(HttpStatus.OK);
+
     }
 
     @RequestMapping(value = "/newUser", method = RequestMethod.POST)
     public ResponseEntity saveUser(@RequestBody User newUser) {
-        userServiceCommand.save(newUser);
+//        userServiceCommand.save(newUser);
+//        return new ResponseEntity(HttpStatus.OK);
+
+        SaveUserCommand request = new SaveUserCommand(newUser);
+        SaveUserCommandHandler handler = (SaveUserCommandHandler)mediator.<SaveUserCommand, SaveUserCommandResponse>handle(request);
+        SaveUserCommandResponse response = handler.handle(request);
+        response.setUser(newUser);
         return new ResponseEntity(HttpStatus.OK);
     }
 

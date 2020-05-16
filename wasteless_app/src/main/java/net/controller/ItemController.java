@@ -1,86 +1,117 @@
 package net.controller;
 
+import net.mediator.Mediator;
+import net.mediator.command.DeleteItemCommand;
+import net.mediator.command.SaveItemCommand;
+import net.mediator.handler.*;
+import net.mediator.query.ItemQuery;
+import net.mediator.query.ItemsQuery;
+import net.mediator.query.ListQuery;
+import net.mediator.response.*;
 import net.model.Item;
 import net.model.Lists;
-import net.model.dto.ItemDTO;
-//import net.service.ItemService;
-//import net.service.ListService;
-import net.service.command.ItemServiceCommand;
-import net.service.query.ItemServiceQuery;
-import net.service.query.ListServiceQuery;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Optional;
-
-//@Controller
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*", exposedHeaders = "Authorization")
 public class ItemController {
 
-//    @Autowired
-//    private ItemService itemService;
-//
-//    @Autowired
-//    private ListService listService;
+    private final Mediator mediator;
 
-    //private Lists list;
+    public ItemController(Mediator mediator) {
+        this.mediator = mediator;
+    }
 
-    @Autowired
-    ItemServiceQuery itemServiceQuery = new ItemServiceQuery(); //----------------------
-    @Autowired
-    ListServiceQuery listServiceQuery = new ListServiceQuery();
-    @Autowired
-    ItemServiceCommand itemServiceCommand = new ItemServiceCommand();
+    private Lists getListOfItem(String username, long id) {
+        ListQuery requestList = new ListQuery(username);
+        ReadListsQueryHandler handlerList = (ReadListsQueryHandler) mediator.<ListQuery, FindListsQueryResponse>handle(requestList);
+        FindListsQueryResponse responseList = handlerList.handle(requestList);
+        List<Lists> listsOfUser = responseList.getLists();
 
+        Lists list = new Lists();
+        for(Lists l : listsOfUser){
+            if(l.getId() == id)
+            {
+                list = l;
+                break;
+            }
+        }
+        return list;
+    }
 
     @RequestMapping(value = "/editList/{username}/{id}", method = RequestMethod.GET)
     public ResponseEntity<List<Item>> viewHomePage(@PathVariable(name = "id") long id, @PathVariable(name = "username") String username) {
+//        List<Item> listOfItems = itemServiceQuery.findItems(id);
+//        return new ResponseEntity<>(listOfItems, HttpStatus.OK);
 
-
-
-        List<Item> listOfItems = itemServiceQuery.findItems(id);
-//        this.list = list;
-        return new ResponseEntity<>(listOfItems, HttpStatus.OK);
+        ItemsQuery request = new ItemsQuery(id);
+        ReadItemsQueryHandler handler = (ReadItemsQueryHandler) mediator.<ItemsQuery, FindItemsQueryResponse>handle(request);
+        FindItemsQueryResponse response = handler.handle(request);
+        return new ResponseEntity<>(response.getItems(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/newItem/{username}/{listId}", method = RequestMethod.POST)
     public ResponseEntity saveItem(@RequestBody Item item, @PathVariable(name = "listId") long id, @PathVariable(name = "username") String username) {
 
+//        Lists list = listServiceQuery.findListById(id);
+//        item.setList(list);
+//        itemServiceCommand.save(item);
+//        return new ResponseEntity(HttpStatus.OK);
 
-        Lists list = listServiceQuery.findListById(id);
+        Lists list = getListOfItem(username, id);
         item.setList(list);
-        itemServiceCommand.save(item);
+
+        SaveItemCommand request = new SaveItemCommand(item);
+        SaveItemCommandHandler handler = (SaveItemCommandHandler) mediator.<SaveItemCommand, SaveItemCommandResponse>handle(request);
+        SaveItemCommandResponse response = handler.handle(request);
+        response.setItem(item);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/editList/editItem/{username}/{listId}/{itemId}", method = RequestMethod.POST)
     public ResponseEntity editItem(@RequestBody Item item, @PathVariable(name = "username") String username, @PathVariable(name = "listId") long listId, @PathVariable(name = "itemId") long itemId) {
-        Lists list = listServiceQuery.findListById(listId);
+//        Lists list = listServiceQuery.findListById(listId);
+//        item.setList(list);
+//        itemServiceCommand.save(item);
+//        return new ResponseEntity(HttpStatus.OK);
+
+        Lists list = getListOfItem(username, listId);
         item.setList(list);
-        itemServiceCommand.save(item);
+
+        SaveItemCommand request = new SaveItemCommand(item);
+        SaveItemCommandHandler handler = (SaveItemCommandHandler) mediator.<SaveItemCommand, SaveItemCommandResponse>handle(request);
+        SaveItemCommandResponse response = handler.handle(request);
+        response.setItem(item);
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/getItem/{itemId}", method = RequestMethod.GET)
-    public ResponseEntity<Item> getItem( @PathVariable(name = "itemId") long itemId) {
-        Item item = itemServiceQuery.getItemById(itemId);
 
-        return new ResponseEntity(new ItemDTO(item.getId(), item.getName(), item.getQuantity(), item.getCalories(), item.getPurchaseDate(), item.getExpirationDate(), item.getPurchaseDate()),
-                HttpStatus.OK);
+    @RequestMapping(value = "/getItem/{itemId}", method = RequestMethod.GET)
+    public ResponseEntity<Item> getItem(@PathVariable(name = "itemId") long itemId) {
+//        Item item = itemServiceQuery.getItemById(itemId);
+//
+//        return new ResponseEntity(new ItemDTO(item.getId(), item.getName(), item.getQuantity(), item.getCalories(), item.getPurchaseDate(), item.getExpirationDate(), item.getPurchaseDate()),
+//                HttpStatus.OK);
+
+
+        ItemQuery request = new ItemQuery(itemId);
+        ReadItemQueryHandler handler = (ReadItemQueryHandler) mediator.<ItemQuery, FindItemQueryResponse>handle(request);
+        FindItemQueryResponse response = handler.handle(request);
+        return new ResponseEntity(response.getItem(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/donate_item/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteItem(@PathVariable(name = "id") int id) {
-        itemServiceCommand.delete(id);
+//        itemServiceCommand.delete(id);
+//        return new ResponseEntity(HttpStatus.OK);
+
+        DeleteItemCommand request = new DeleteItemCommand(id);
+        DeleteItemCommandHandler handler = (DeleteItemCommandHandler) mediator.<DeleteItemCommand, GenericResponse>handle(request);
+        handler.handle(request);
         return new ResponseEntity(HttpStatus.OK);
     }
 

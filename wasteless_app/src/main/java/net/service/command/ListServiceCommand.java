@@ -13,11 +13,17 @@ import java.util.Optional;
 @Transactional
 public class ListServiceCommand {
 
-    @Autowired
-    private ListRepository listRepository;
+//    @Autowired
+//    private ListRepository listRepository;
 
-    public void save(Lists list) {
-        listRepository.save(list);
+    private final ListRepository listRepository;
+
+    public ListServiceCommand(ListRepository listRepository) {
+        this.listRepository = listRepository;
+    }
+
+    public Lists save(Lists list) {
+        return listRepository.save(list);
     }
 
     public void delete(long id) {

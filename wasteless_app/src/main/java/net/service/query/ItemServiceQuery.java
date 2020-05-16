@@ -11,18 +11,24 @@ import java.util.List;
 @Service
 @Transactional
 public class ItemServiceQuery {
-    @Autowired
-    private ItemRepository itemRepository;
+//    @Autowired
+//    private ItemRepository itemRepository;
 
-    public List<Item> listAll() {
-        return itemRepository.findAll();
+    private final ItemRepository itemRepository;
+
+    public ItemServiceQuery(ItemRepository itemRepository) {
+        this.itemRepository = itemRepository;
     }
+
+//    public List<Item> listAll() {
+//        return itemRepository.findAll();
+//    }
 
     public List<Item> findItems(Long id) {
         return itemRepository.findAllByListId(id);
     }
 
-    public Item getById(long id){return itemRepository.findById(id).get();}
+//    public Item getById(long id){return itemRepository.findById(id).get();}
 
     public Item getItemById(long id){return itemRepository.findItemById(id);}
 }

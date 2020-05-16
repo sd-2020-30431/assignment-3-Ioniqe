@@ -15,13 +15,23 @@ import java.util.List;
 
 @Service
 public class ReportServiceQuery {
-    @Autowired
-    private ItemRepository itemRepository;
+//    @Autowired
+//    private ItemRepository itemRepository;
+//
+//    @Autowired
+//    private ListRepository listRepository;
 
-    @Autowired
-    private ListRepository listRepository;
+    private final ItemRepository itemRepository;
+    private final ListRepository listRepository;
 
-    public CreatedReport getReport(ReportType reportType, String username) {
+    public ReportServiceQuery(ItemRepository itemRepository, ListRepository listRepository) {
+        this.itemRepository = itemRepository;
+        this.listRepository = listRepository;
+    }
+
+    public CreatedReport getReport(String reportTypeString, String username) {
+        ReportType reportType = ReportType.valueOf(reportTypeString);
+
         List<Lists> listOfLists = listRepository.findAllByUser_Username(username);
 
         List<Item> itemList = new ArrayList<>();

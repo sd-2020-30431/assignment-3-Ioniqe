@@ -12,11 +12,17 @@ import java.util.List;
 @Transactional
 public class UserServiceCommand {
 
-	@Autowired
-	private UserRepository userRepository;
+//	@Autowired
+//	private UserRepository userRepository;
 
-	public void save(User user) {
-		userRepository.save(user);
+	private final UserRepository userRepository;
+
+	public UserServiceCommand(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
+
+	public User save(User user) {
+		return userRepository.save(user);
 	}
 
 	public void delete(long id) {

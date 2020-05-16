@@ -9,8 +9,14 @@ import java.util.List;
 
 @Service
 public class CharityServiceQuery {
-    @Autowired
+//    @Autowired
+//    private CharityRepository charityRepository;
+
     private CharityRepository charityRepository;
+
+    public CharityServiceQuery(CharityRepository charityRepository) {
+        this.charityRepository = charityRepository;
+    }
 
     public List<Charity> listAll() {
         return charityRepository.findAll();

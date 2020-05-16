@@ -12,12 +12,18 @@ import java.util.List;
 @Transactional
 public class UserServiceQuery {
 
-	@Autowired
-	private UserRepository userRepository;
+//	@Autowired
+//	private UserRepository userRepository;
 
-	public List<User> listAll() {
-		return userRepository.findAll();
+	private final UserRepository userRepository;
+
+	public UserServiceQuery(UserRepository userRepository) {
+		this.userRepository = userRepository;
 	}
+
+//	public List<User> listAll() {
+//		return userRepository.findAll();
+//	}
 	
 	public User findUser(String username, String password) {
 		return userRepository.findUserByUsernameAndPassword(username, password);
@@ -25,5 +31,5 @@ public class UserServiceQuery {
 
 	public User findUserByUsername(String username){return userRepository.findUserByUsername(username);}
 
-	public User findUserById(long id){return userRepository.findUserById(id);}
+//	public User findUserById(long id){return userRepository.findUserById(id);}
 }

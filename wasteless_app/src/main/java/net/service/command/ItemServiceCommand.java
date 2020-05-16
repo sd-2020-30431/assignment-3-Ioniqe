@@ -11,11 +11,17 @@ import java.util.List;
 @Service
 @Transactional
 public class ItemServiceCommand {
-    @Autowired
-    private ItemRepository itemRepository;
+//    @Autowired
+//    private ItemRepository itemRepository;
 
-    public void save(Item item) {
-        itemRepository.save(item);
+    private final ItemRepository itemRepository;
+
+    public ItemServiceCommand(ItemRepository itemRepository) {
+        this.itemRepository = itemRepository;
+    }
+
+    public Item save(Item item) {
+        return itemRepository.save(item);
     }
 
     public void delete(long id) {
