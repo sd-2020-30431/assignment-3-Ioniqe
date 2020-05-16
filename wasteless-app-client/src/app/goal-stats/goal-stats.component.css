@@ -72,3 +72,11 @@ h1 {
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
   }
+
+.positive {
+    background-color: rgb(99, 221, 99);
+}
+
+.negative {
+    background-color: rgb(179, 67, 67);
+}
