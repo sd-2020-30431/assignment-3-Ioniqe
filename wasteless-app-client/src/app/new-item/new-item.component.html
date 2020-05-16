@@ -1,0 +1,57 @@
+<div style="margin-top: 6%;">
+    <h1>New Item</h1>
+
+    <div class="center">
+        <h2>
+        Choose name: <input type="text" [formControl]="newNameForm" 
+                        style="font-size: medium; color: #13293D; font-weight: bold; font-family: Cambria;
+                            background-color: #F3DE8A;   border-radius: 15px; ">
+        </h2>
+
+    </div>
+
+    <div class="center">
+            <h2>
+            Choose quantity: <input type="text" [formControl]="newQuantityForm" 
+                                style="font-size: medium; color: #13293D; font-weight: bold; font-family: Cambria;
+                                    background-color: #F3DE8A;   border-radius: 15px;">
+            </h2>
+    </div>
+
+    <div class="center">
+
+            <h2>
+            Choose calories: <input type="text" [formControl]="newCaloriesForm" 
+                                style="font-size: medium; color: #13293D; font-weight: bold; font-family: Cambria;
+                                    background-color: #F3DE8A;   border-radius: 15px;">
+            </h2>
+    </div>
+
+    <div class="center">
+            <h2>
+            Choose purchaseDate: <input type="date" [formControl]="newPurchaseDateForm" 
+                                style="font-size: medium; color: #13293D; font-weight: bold; font-family: Cambria;
+                                    background-color: #F3DE8A;   border-radius: 15px;">
+            </h2>
+    </div>
+
+    <div class="center">
+            <h2>
+            Choose expirationDate: <input type="date" [formControl]="newExpirationDateForm" 
+                                style="font-size: medium; color: #13293D; font-weight: bold; font-family: Cambria;
+                                    background-color: #F3DE8A;   border-radius: 15px;">
+            </h2>
+    </div>
+
+    <div class="center">
+            <h2>
+            Choose consumptionDate: <input type="date" [formControl]="newConsumptionDateForm" 
+                                style="font-size: medium; color: #13293D; font-weight: bold; font-family: Cambria;
+                                    background-color: #F3DE8A;   border-radius: 15px;">
+            </h2>
+    </div>
+</div>
+
+<div class="center">
+    <button (click)="submitNewItem()">Submit</button> 
+</div>

@@ -1,0 +1,22 @@
+<div style="margin-top: 13%;">
+    <h1>New User</h1>
+    <div class="center">
+        <h2>
+        Choose username: <input type="text" [formControl]="newUsernameForm" 
+                        style="font-size: medium; color: #13293D; font-weight: bold; font-family: Cambria;
+                            background-color: #F3DE8A;   border-radius: 15px; ">
+        </h2>
+
+        <div style="margin-left: 3%;">
+            <h2>
+            Choose password: <input type="text" [formControl]="newPasswordForm" 
+                                style="font-size: medium; color: #13293D; font-weight: bold; font-family: Cambria;
+                                    background-color: #F3DE8A;   border-radius: 15px;">
+            </h2>
+        </div>
+    </div>
+</div>
+
+<div class="center">
+    <button (click)="submitNewUser()">Submit</button> 
+</div>
