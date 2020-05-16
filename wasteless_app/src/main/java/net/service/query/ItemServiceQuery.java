@@ -11,8 +11,6 @@ import java.util.List;
 @Service
 @Transactional
 public class ItemServiceQuery {
-//    @Autowired
-//    private ItemRepository itemRepository;
 
     private final ItemRepository itemRepository;
 
@@ -20,15 +18,9 @@ public class ItemServiceQuery {
         this.itemRepository = itemRepository;
     }
 
-//    public List<Item> listAll() {
-//        return itemRepository.findAll();
-//    }
-
     public List<Item> findItems(Long id) {
         return itemRepository.findAllByListId(id);
     }
-
-//    public Item getById(long id){return itemRepository.findById(id).get();}
 
     public Item getItemById(long id){return itemRepository.findItemById(id);}
 }

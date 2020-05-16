@@ -45,8 +45,6 @@ public class ItemController {
 
     @RequestMapping(value = "/editList/{username}/{id}", method = RequestMethod.GET)
     public ResponseEntity<List<Item>> viewHomePage(@PathVariable(name = "id") long id, @PathVariable(name = "username") String username) {
-//        List<Item> listOfItems = itemServiceQuery.findItems(id);
-//        return new ResponseEntity<>(listOfItems, HttpStatus.OK);
 
         ItemsQuery request = new ItemsQuery(id);
         ReadItemsQueryHandler handler = (ReadItemsQueryHandler) mediator.<ItemsQuery, FindItemsQueryResponse>handle(request);
@@ -56,11 +54,6 @@ public class ItemController {
 
     @RequestMapping(value = "/newItem/{username}/{listId}", method = RequestMethod.POST)
     public ResponseEntity saveItem(@RequestBody Item item, @PathVariable(name = "listId") long id, @PathVariable(name = "username") String username) {
-
-//        Lists list = listServiceQuery.findListById(id);
-//        item.setList(list);
-//        itemServiceCommand.save(item);
-//        return new ResponseEntity(HttpStatus.OK);
 
         Lists list = getListOfItem(username, id);
         item.setList(list);
@@ -74,10 +67,6 @@ public class ItemController {
 
     @RequestMapping(value = "/editList/editItem/{username}/{listId}/{itemId}", method = RequestMethod.POST)
     public ResponseEntity editItem(@RequestBody Item item, @PathVariable(name = "username") String username, @PathVariable(name = "listId") long listId, @PathVariable(name = "itemId") long itemId) {
-//        Lists list = listServiceQuery.findListById(listId);
-//        item.setList(list);
-//        itemServiceCommand.save(item);
-//        return new ResponseEntity(HttpStatus.OK);
 
         Lists list = getListOfItem(username, listId);
         item.setList(list);
@@ -92,11 +81,6 @@ public class ItemController {
 
     @RequestMapping(value = "/getItem/{itemId}", method = RequestMethod.GET)
     public ResponseEntity<Item> getItem(@PathVariable(name = "itemId") long itemId) {
-//        Item item = itemServiceQuery.getItemById(itemId);
-//
-//        return new ResponseEntity(new ItemDTO(item.getId(), item.getName(), item.getQuantity(), item.getCalories(), item.getPurchaseDate(), item.getExpirationDate(), item.getPurchaseDate()),
-//                HttpStatus.OK);
-
 
         ItemQuery request = new ItemQuery(itemId);
         ReadItemQueryHandler handler = (ReadItemQueryHandler) mediator.<ItemQuery, FindItemQueryResponse>handle(request);
@@ -106,8 +90,6 @@ public class ItemController {
 
     @RequestMapping(value = "/donate_item/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteItem(@PathVariable(name = "id") int id) {
-//        itemServiceCommand.delete(id);
-//        return new ResponseEntity(HttpStatus.OK);
 
         DeleteItemCommand request = new DeleteItemCommand(id);
         DeleteItemCommandHandler handler = (DeleteItemCommandHandler) mediator.<DeleteItemCommand, GenericResponse>handle(request);

@@ -15,9 +15,8 @@ public class ReadGoalQueryHandler implements Handler<GoalQuery, FindGoalQueryRes
         this.goalServiceQuery = goalServiceQuery;
     }
 
-
     @Override
     public FindGoalQueryResponse handle(GoalQuery request) {
-        return new FindGoalQueryResponse(goalServiceQuery.calculateAmountOfDailyCalories(request.getUserId()));
+        return new FindGoalQueryResponse(goalServiceQuery.calculateAmountOfDailyCalories(request.getUser().getUsername()));
     }
 }

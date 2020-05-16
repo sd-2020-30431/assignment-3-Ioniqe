@@ -26,12 +26,6 @@ public class UserController {
     public ResponseEntity<User> update(@RequestBody User myUser) {
         String username = myUser.getUsername().trim();
         String password = myUser.getPassword().trim();
-//        User verifyUser = userServiceQuery.findUser(username, password);
-//        if (verifyUser == null) {
-//            return new ResponseEntity("Invalid User", HttpStatus.UNAUTHORIZED);
-//        }
-//
-//        return new ResponseEntity(new UserDTO(username, password), HttpStatus.OK);
 
         FindUserQuery request = new FindUserQuery(myUser.getUsername(), myUser.getPassword());
         FindUserQueryHandler handler = (FindUserQueryHandler)mediator.<FindUserQuery, FindUserResponse>handle(request);
@@ -47,11 +41,6 @@ public class UserController {
 
     @RequestMapping(value = "/lists/updateUserGoal", method = RequestMethod.PUT)
     public ResponseEntity editUser(@RequestBody User updatedUserGoal) {
-//        User updatedUser = userServiceQuery.findUserByUsername(updatedUserGoal.getUsername());
-//        updatedUser.setGoal(updatedUserGoal.getGoal());
-//        userServiceCommand.save(updatedUser);
-//        return new ResponseEntity(HttpStatus.OK);
-
         FindUserQuery request = new FindUserQuery(updatedUserGoal.getUsername(), updatedUserGoal.getPassword());
         FindUserQueryHandler handler = (FindUserQueryHandler)mediator.<FindUserQuery, FindUserResponse>handle(request);
         FindUserResponse response = handler.handle(request);
@@ -63,8 +52,6 @@ public class UserController {
 
     @RequestMapping(value = "/newUser", method = RequestMethod.POST)
     public ResponseEntity saveUser(@RequestBody User newUser) {
-//        userServiceCommand.save(newUser);
-//        return new ResponseEntity(HttpStatus.OK);
 
         SaveUserCommand request = new SaveUserCommand(newUser);
         SaveUserCommandHandler handler = (SaveUserCommandHandler)mediator.<SaveUserCommand, SaveUserCommandResponse>handle(request);

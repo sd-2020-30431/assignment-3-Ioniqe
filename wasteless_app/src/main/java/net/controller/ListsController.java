@@ -36,9 +36,6 @@ public class ListsController {
 
     @RequestMapping(value = "/lists/{username}", method = RequestMethod.GET)
     public ResponseEntity<List<Lists>> listLists(@PathVariable(name = "username") String username) {
-//        List<Lists> listOfLists = listServiceQuery.findAllListsByUsername(username);
-//        return new ResponseEntity<>(listOfLists, HttpStatus.OK);
-
         ListQuery request = new ListQuery(username);
         ReadListsQueryHandler handler = (ReadListsQueryHandler) mediator.<ListQuery, FindListsQueryResponse>handle(request);
         FindListsQueryResponse response = handler.handle(request);
@@ -47,10 +44,6 @@ public class ListsController {
 
     @RequestMapping(value = "/lists/{username}", method = RequestMethod.POST)
     public ResponseEntity newList(@PathVariable(name = "username") String username, @RequestBody Lists list) {
-//        User user = userServiceQuery.findUserByUsername(username);
-//        list.setUser(user);
-//        listServiceCommand.save(list);
-//        return new ResponseEntity(HttpStatus.OK);
 
         FindUserQuery requestUser = new FindUserQuery(username);
         FindUserQueryHandler handlerUser = (FindUserQueryHandler) mediator.<FindUserQuery, FindUserResponse>handle(requestUser);
@@ -66,14 +59,12 @@ public class ListsController {
 
         response.setList(list);
 
-//        return new ResponseEntity<>(response.getList(), HttpStatus.OK);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/delete/{username}/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteList(@PathVariable(name = "id") int id, @PathVariable(name = "username") String username) {
-//        listServiceCommand.delete(id);
-//        return new ResponseEntity(HttpStatus.OK);
+
         DeleteListCommand request = new DeleteListCommand(id);
         DeleteListCommandHandler handler = (DeleteListCommandHandler) mediator.<DeleteListCommand, GenericResponse>handle(request);
         handler.handle(request);

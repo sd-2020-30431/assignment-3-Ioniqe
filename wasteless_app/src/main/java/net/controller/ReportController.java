@@ -17,9 +17,6 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*", exposedHeaders = "Authorization")
 public class ReportController {
 
-//    @Autowired
-//    ReportServiceQuery reportServiceQuery = new ReportServiceQuery();
-
     private final Mediator mediator;
 
     public ReportController(Mediator mediator) {
@@ -36,42 +33,28 @@ public class ReportController {
 
     @RequestMapping(value = "/report/{username}/{reportType}/eatenCalories", method = RequestMethod.GET)
     public ResponseEntity<Integer> getEatenCalories(@PathVariable(name = "username") String username, @PathVariable(name = "reportType") String reportType) {
-//        CreatedReport createdReport = reportServiceQuery.getReport(ReportType.valueOf(reportType), username);
-//        return new ResponseEntity<>(createdReport.getEatenCalories(), HttpStatus.OK);
-
         CreatedReport createdReport = setup(reportType, username);
         return new ResponseEntity<>(createdReport.getEatenCalories(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/report/{username}/{reportType}/wastedCalories", method = RequestMethod.GET)
     public ResponseEntity<Integer> getWastedCalories(@PathVariable(name = "username") String username, @PathVariable(name = "reportType") String reportType) {
-//        CreatedReport createdReport = reportServiceQuery.getReport(ReportType.valueOf(reportType), username);
-//        return new ResponseEntity<>(createdReport.getWastedCalories(), HttpStatus.OK);
-
         CreatedReport createdReport = setup(reportType, username);
         return new ResponseEntity<>(createdReport.getWastedCalories(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/report/{username}/{reportType}/eatenFood", method = RequestMethod.GET)
     public ResponseEntity<List<Item>> getEatenFood(@PathVariable(name = "username") String username, @PathVariable(name = "reportType") String reportType) {
-//        CreatedReport createdReport = reportServiceQuery.getReport(ReportType.valueOf(reportType), username);
-//        List<Item> eatenFood = createdReport.getEatenFood();
-//        return new ResponseEntity<>(eatenFood, HttpStatus.OK);
-
-        CreatedReport createdReport = setup(reportType, username);
+         CreatedReport createdReport = setup(reportType, username);
         List<Item> eatenFood = createdReport.getEatenFood();
         return new ResponseEntity<>(eatenFood, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/report/{username}/{reportType}/expiredFood", method = RequestMethod.GET)
     public ResponseEntity<List<Item>> getExpiredFood(@PathVariable(name = "username") String username, @PathVariable(name = "reportType") String reportType) {
-//        CreatedReport createdReport = reportServiceQuery.getReport(ReportType.valueOf(reportType), username);
-//        List<Item> expiredFood = createdReport.getExpiredFood();
-//        return new ResponseEntity<>(expiredFood, HttpStatus.OK);
-
         CreatedReport createdReport = setup(reportType, username);
-        List<Item> eatenFood = createdReport.getEatenFood();
-        return new ResponseEntity<>(eatenFood, HttpStatus.OK);
+        List<Item> expiredFood = createdReport.getExpiredFood();
+        return new ResponseEntity<>(expiredFood, HttpStatus.OK);
     }
 
 }

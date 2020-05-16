@@ -12,9 +12,6 @@ import java.util.List;
 @Transactional
 public class UserServiceCommand {
 
-//	@Autowired
-//	private UserRepository userRepository;
-
 	private final UserRepository userRepository;
 
 	public UserServiceCommand(UserRepository userRepository) {

@@ -9,8 +9,6 @@ import java.util.List;
 
 @Service
 public class CharityServiceQuery {
-//    @Autowired
-//    private CharityRepository charityRepository;
 
     private CharityRepository charityRepository;
 

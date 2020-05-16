@@ -17,11 +17,6 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*", exposedHeaders = "Authorization")
 public class GoalController {
 
-//
-//    @Autowired
-//    GoalServiceQuery goalService = new GoalServiceQuery();
-//
-
     private final Mediator mediator;
 
     public GoalController(Mediator mediator) {
@@ -32,27 +27,15 @@ public class GoalController {
     @RequestMapping(value = "/lists/displayGoalStats/{username}", method = RequestMethod.GET)
     public ResponseEntity<ListDTO> createGoal(@PathVariable(value = "username") String username) {
 
-
-//        User user = goalService.getUserByUsernameOfGoal(username);
-//        String waste;
-//        int dailyCalories = goalService.calculateAmountOfDailyCalories(user.getId());
-//        if (dailyCalories > user.getGoal()) {
-//            waste = " a waste of " + (dailyCalories - user.getGoal()) + " calories. In order to make no waste, you would need to consume " +
-//                    dailyCalories + " calories per day, or donate to a charity";
-//        } else {
-//            waste = "no waste.";
-//        }
-//        ListDTO l = new ListDTO(waste);
-//        return new ResponseEntity<ListDTO>(l, HttpStatus.OK);
-
         FindUserQuery request = new FindUserQuery(username);
         FindUserQueryHandler handler = (FindUserQueryHandler)mediator.<FindUserQuery, FindUserResponse>handle(request);
         FindUserResponse response = handler.handle(request);
         User user = response.getUser();
+
         String waste;
         int dailyCalories;
 
-        GoalQuery requestGoal = new GoalQuery(username);
+        GoalQuery requestGoal = new GoalQuery(user);
         ReadGoalQueryHandler handlerGoal = (ReadGoalQueryHandler)mediator.<GoalQuery, FindGoalQueryResponse>handle(requestGoal);
         FindGoalQueryResponse responseGoal = handlerGoal.handle(requestGoal);
         dailyCalories = responseGoal.getCalories();
@@ -63,11 +46,12 @@ public class GoalController {
         } else {
             waste = "no waste.";
         }
-        System.out.println("CALORIES: " + dailyCalories);
-        System.out.println("WASTE: " + waste);
+
         ListDTO l = new ListDTO(waste);
         return new ResponseEntity<ListDTO>(l, HttpStatus.OK);
 
     }
+
+
 
 }

@@ -15,11 +15,6 @@ import java.util.List;
 
 @Service
 public class ReportServiceQuery {
-//    @Autowired
-//    private ItemRepository itemRepository;
-//
-//    @Autowired
-//    private ListRepository listRepository;
 
     private final ItemRepository itemRepository;
     private final ListRepository listRepository;

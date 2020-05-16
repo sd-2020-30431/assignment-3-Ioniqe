@@ -21,9 +21,6 @@ public class CharityController {
 
     @RequestMapping(value = "/donateToCharity/{itemId}", method = RequestMethod.GET)
     public ResponseEntity<List<Charity>> viewCharities(@PathVariable(name = "itemId") int itemId) {
-//
-//        List<Charity> listCharities = charityService.listAll();
-//        return new ResponseEntity<>(listCharities, HttpStatus.OK);
 
         CharityQuery request = new CharityQuery();
         ReadCharitiesQueryHandler handler = (ReadCharitiesQueryHandler)mediator.<CharityQuery, FindCharitiesQueryResponse> handle(request);

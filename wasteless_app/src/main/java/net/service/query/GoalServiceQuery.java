@@ -8,22 +8,15 @@ import net.repository.ListRepository;
 import net.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 
 @Service
+@Transactional
 public class GoalServiceQuery {
 
-//    @Autowired
-//    private UserRepository userRepository;
-//
-//    @Autowired
-//    private ListRepository listRepository;
-//
-//    @Autowired
-//    private ItemRepository itemRepository;
-//
     private final UserRepository userRepository;
     private final ListRepository listRepository;
     private final ItemRepository itemRepository;
@@ -35,8 +28,8 @@ public class GoalServiceQuery {
         this.itemRepository = itemRepository;
     }
 
-    public int calculateAmountOfDailyCalories(long userId) {
-        List<Lists> usersLists = listRepository.findAllByUserId(userId);
+    public int calculateAmountOfDailyCalories(String username) {//long userId
+        List<Lists> usersLists = listRepository.findAllByUser_Username(username);
         List<Item> itemsInTheList;
 
         int amount = 0;

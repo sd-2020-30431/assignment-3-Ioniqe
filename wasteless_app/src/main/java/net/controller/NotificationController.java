@@ -22,11 +22,6 @@ import java.util.*;
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*", exposedHeaders = "Authorization")
 public class NotificationController {
 
-//    @Autowired
-//    ListServiceQuery listServiceQuery = new ListServiceQuery();
-//    @Autowired
-//    ItemServiceQuery itemServiceQuery = new ItemServiceQuery();
-
     private final Mediator mediator;
 
     public NotificationController(Mediator mediator) {
@@ -35,21 +30,6 @@ public class NotificationController {
 
     @RequestMapping(value = "/notification/{username}", method = RequestMethod.GET)
     public ResponseEntity<List<Item>> getExpiredLists(@PathVariable(name = "username") String username) {
-
-//        List<Lists> listsOfUser = listServiceQuery.findAllListsByUsername(username);
-////        List<Item> itemsOfUser = new ArrayList<>();
-////        for (Lists list : listsOfUser) {
-////            itemsOfUser.addAll(itemServiceQuery.findItems(list.getId()));
-////        }
-////
-////        List<Item> expiredItems = new ArrayList<>();
-////        new ItemExpirationObserver(itemsOfUser, (list) -> {
-////            expiredItems.clear();
-////            expiredItems.addAll(list);
-////        });
-////
-////
-////        return new ResponseEntity(expiredItems, HttpStatus.OK);
 
         ListQuery request = new ListQuery(username);
         ReadListsQueryHandler handler = (ReadListsQueryHandler) mediator.<ListQuery, FindListsQueryResponse>handle(request);

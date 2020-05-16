@@ -13,18 +13,11 @@ import java.util.Optional;
 @Transactional
 public class ListServiceQuery {
 
-//    @Autowired
-//    private ListRepository listRepository;
-
     private final ListRepository listRepository;
 
     public ListServiceQuery(ListRepository listRepository) {
         this.listRepository = listRepository;
     }
-
-//    public List<Lists> listAll() {
-//        return listRepository.findAll();
-//    }
 
     public List<Lists> findAllListsByUsername(String name) {
         return listRepository.findAllByUser_Username(name);
@@ -32,13 +25,5 @@ public class ListServiceQuery {
     public Lists findListById(long id){
         return listRepository.findListsById(id);
     }
-
-//    public List<Lists> findListsByUserId(Long userId) {
-//        return listRepository.findAllByUserId(userId);
-//    }
-//
-//    public Optional<Lists> findById(long id) {
-//        return listRepository.findById(id);
-//    }
 
 }

@@ -11,9 +11,6 @@ import java.util.List;
 @Service
 @Transactional
 public class ItemServiceCommand {
-//    @Autowired
-//    private ItemRepository itemRepository;
-
     private final ItemRepository itemRepository;
 
     public ItemServiceCommand(ItemRepository itemRepository) {

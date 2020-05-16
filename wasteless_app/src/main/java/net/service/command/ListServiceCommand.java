@@ -13,9 +13,6 @@ import java.util.Optional;
 @Transactional
 public class ListServiceCommand {
 
-//    @Autowired
-//    private ListRepository listRepository;
-
     private final ListRepository listRepository;
 
     public ListServiceCommand(ListRepository listRepository) {
